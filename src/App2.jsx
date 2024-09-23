@@ -1,18 +1,15 @@
 import { useEffect, useState } from "react";
+import api from "./api";
 
-function App() {
+function App2() {
   const [users, setUsers] = useState([]);
   const [user, setUser] = useState(null);
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch(
-          "https://jsonplaceholder.typicode.com/users"
-        );
-        const data = await response.json();
-        setUsers(data);
-        if (!response.ok) throw new Error("Network response was not ok");
+        const response = await api.get("/users");
+        setUsers(response.data);
       } catch (error) {
         console.error("This is my Error: ", error);
       }
@@ -22,12 +19,8 @@ function App() {
 
   const fetchUserById = async (id) => {
     try {
-      const response = await fetch(
-        `https://jsonplaceholder.typicode.com/users/${id}`
-      );
-      const data = await response.json();
-      setUser(data);
-      if (!response.ok) throw new Error("Network response was not ok");
+      const response = await api.get(`/users/${id}`);
+      setUser(response.data);
     } catch (error) {
       console.error("This is my Error: ", error);
     }
@@ -73,4 +66,4 @@ function App() {
   );
 }
 
-export default App;
+export default App2;
